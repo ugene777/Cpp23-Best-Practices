@@ -1,0 +1,34 @@
+请记住，首先要专注于让你的接口“难以被错误使用”。然后，作为第二道防线，考虑编写你自己的静态分析工具。
+
+这些工具可以表现为以下形式：
+
+\begin{itemize}
+\item
+自定义的 clang-tidy 分析\footnote{\url{https://clang.llvm.org/extra/clang-tidy/Contributing.html}}
+
+\item
+使用 clang-query 查询项目的抽象语法树（AST）\footnote{\url{https://clang.llvm.org/docs/LibASTMatchersReference.html}}，以发现常见错误
+
+\item
+为 cppcheck 编写自定义规则\footnote{\url{https://sourceforge.net/projects/cppcheck/files/Articles/}}
+
+\item
+编写 CodeQL\footnote{\url{https://codeql.github.com/}} 自定义检查
+\end{itemize}
+
+\begin{myTip}{练习：寻找常见的编码错误}
+与团队成员讨论你在代码库中常见的问题。看看是否能识别出一两个可以通过自定义分析检查发现的常见问题，并使用上述工具之一实现一个检查。
+\end{myTip}
+
+\mySubsectionNoFile{18.1}{资源}
+
+\begin{itemize}
+\item
+闪电演讲：使用 Clang Query 提取 AST 元素 - Kristen Shaker - C++ on Sea 2022\footnote{\url{https://youtu.be/2LOxsfpCCyI}}
+
+\item
+用于学习的自定义 cppcheck 规则数据库\footnote{\url{https://github.com/embeddedartistry/cppcheck-rules}}
+
+\item
+CodeQL 教程\footnote{\url{https://codeql.github.com/docs/writing-codeql-queries/ql-tutorials/}}
+\end{itemize}

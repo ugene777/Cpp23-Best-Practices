@@ -1,0 +1,79 @@
+\filename{图 2. 对 'this' 是否为 'nullptr' 的无效检查}
+
+\begin{cpp}
+int Class::member() {
+  if (this == nullptr) {
+    // removed by the compiler, it would be UB
+    // if this were ever null
+    return 42;
+  } else {
+    return 0;
+  }
+}
+\end{cpp}
+
+从技术上讲，这个检查本身并不构成未定义行为（UB）。但这个检查永远不可能失败。如果 this 真的等于 nullptr，那么程序就已经处于未定义行为状态了。过去人们经常这样做，但这种行为一直都是未定义的。你不能在对象的生命周期之外访问它。如今的编译器总是会移除这种检查。
+
+理论上唯一能让 this 为 nullptr 的情况，是你直接在一个空对象上调用成员函数。
+
+\begin{myWarning}{警告}
+接下来是反面教材，请勿模仿。
+\end{myWarning}
+
+\filename{图 3. 在 'nullptr' 上调用成员函数的错误示例。}
+
+\begin{cpp}
+Type *obj = nullptr;
+obj->do_thing(); // never do this
+\end{cpp}
+
+即使是在 delete this 这种（技术上可行但绝不应做）的场景下也是如此。
+
+\filename{图 4. 'delete this' 的错误示例}
+
+\begin{cpp}
+struct S {
+  std::string data;
+
+  void delete_yourself() {
+    // do things
+    delete this; // technically OK
+
+    if (this) {
+      // this block will always be executed, nothing changed
+      // our view of `this`
+    }
+
+    // never do this
+    data.size(); // UB, data's lifetime has ended
+  }
+};
+\end{cpp}
+
+在现代编译器上，if (this) 这样的检查永远不可能返回 false。
+
+\begin{myTip}{练习：你会检查 this 是否为 nullptr 吗？}
+对 nullptr 的检查可能以检查 NULL 或与 0 比较的形式隐藏。对 this 是否为 NULL 的检查很可能只存在于非常古老的代码库中。请确保你已启用编译警告，然后查找这些情况。
+
+在你的代码库中搜索 this == 也是一个有趣的尝试，看看会发现哪些奇怪的代码。
+\end{myTip}
+
+\mySubsectionNoFile{12.1}{资源}
+
+\begin{itemize}
+\item
+移植到 GCC-6：优化会移除对 this 的空指针检查\footnote{\url{https://www.gnu.org/software/gcc/gcc-6/porting_to.html\#this-cannot-be-null}}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
