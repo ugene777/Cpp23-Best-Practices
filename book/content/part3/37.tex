@@ -1,0 +1,115 @@
+
+
+我之前已经鼓励过你使用 constexpr。
+C++20 新增了 consteval 和 constinit，理解它们的作用非常重要：
+
+变量声明：
+
+\begin{itemize}
+\item
+consteval int x = /**/ - 无效，consteval 仅适用于函数
+
+\item
+constexpr int x = /**/ - 声明一个可在编译时使用的常量值，且在需要时可以在编译时求值
+
+\item
+static constexpr int x = /**/ - 声明一个可在编译时使用的常量值，并且会在编译时求值
+
+\item
+constinit int x = /**/ - 无效
+
+\item
+static constinit int x = /**/ - 声明一个非 const 的值（即可变的），它不能在编译时使用，但其初始化过程是在编译时完成的
+\end{itemize}
+
+函数声明：
+
+\begin{itemize}
+\item
+consteval int func(int) - 声明一个必须在编译时求值的函数
+
+\item
+constexpr int func(int) - 声明一个可以在编译时调用的函数
+
+\item
+constinit int func(int) - 无效，constinit 仅适用于变量
+\end{itemize}
+
+\begin{myTip}{练习：讨论一下，是否可能存在用户自定义字面量不应该声明为 consteval 的情况？}
+用户自定义字面量提供了一种将字面量转换为另一种类型的快捷方式。标准库提供了许多不同的用户自定义字面量。其中两个值得注意但有所区别的是 std::string\footnote{\url{https://en.cppreference.com/w/cpp/string/basic_string/operator\%22\%22s}} 和 std::string\_view\footnote{\url{https://en.cppreference.com/w/cpp/string/basic_string_view/operator\%22\%22sv}}。
+
+\filename{图47. consteval 用户自定义字面量}
+
+\begin{cpp}
+mport std;
+
+int main(const int argc, const char *[]) {
+  using std::literals::string_literals;
+  using std::literals::string_view_literals;
+
+  // Currently the standard library provided `s` literal
+  // is not `consteval`. Should it be?
+  const auto my_string
+    = "Hello World"s; // creates a string
+
+  // Currently the standard library provided `sv` literal
+  // is not `consteval`. Should it be?
+  const auto my_string_view
+    = "Hello World"sv; // creates a string_view
+}
+\end{cpp}
+
+\end{myTip}
+
+\begin{myTip}{练习：如果一个函数必须在编译时调用，这意味着什么？}
+\filename{图48. consteval 练习}
+
+\begin{cpp}
+consteval int get_value(const int input) {
+  return input * 42;
+}
+
+int main(const int argc, const char *[]) {
+  // will this code compile?
+  const auto value = get_value(argc);
+}
+\end{cpp}
+\end{myTip}
+
+\mySubsectionNoFile{37.1}{资源}
+
+\begin{itemize}
+\item
+Andreas Fertig 的博客：“consteval 的一个巧妙技巧”\footnote{\url{https://andreasfertig.blog/2021/07/cpp20-a-neat-trick-with-consteval/}}
+
+\item
+C++ Weekly 第304集：“C++23 的 if consteval vs C++20 的 is\_constant\_evaluated vs C++17 的 if constexpr”\footnote{\url{https://youtu.be/AtdlMB_n2pI}}
+
+\item
+C++ Weekly 第308集：“if consteval - 故事太多”\footnote{\url{https://youtu.be/y3r9l3LZiJ8}}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

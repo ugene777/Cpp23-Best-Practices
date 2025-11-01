@@ -1,0 +1,111 @@
+
+C++23 对 C++ 模块提供了完整支持，并且标准库现在被要求提供模块。
+
+\filename{图 26. C++23 模块之前}
+
+\begin{cpp}
+#include <string>
+#include <vector>
+#include <map>
+
+int main()
+{
+  std::map<int, std::vector<std::string>> data;
+  // do stuff
+}
+\end{cpp}
+
+\filename{图 27. C++23 模块之后}
+
+\begin{cpp}
+import std;
+
+int main()
+{
+  std::map<int, std::vector<std::string>> data;
+  // do stuff
+}
+\end{cpp}
+
+据微软提供的证据显示（在撰写本节时，微软拥有最完整的模块实现），使用模块实际上比包含头文件要快得多。
+
+\begin{myTip}{}
+导入一个模块基本上是“零成本”的。
+\end{myTip}
+
+当包含一个模块时，无需立即解析代码，因此实际上没有开销。这也就是为什么现在整个标准库可以统一通过单个 import 指令引入。
+
+\begin{myWarning}{}
+这是一个非常基础但完整的 C++20 模块定义示例。
+
+有关模块的实际使用，请参阅资源部分获取更多信息。
+\end{myWarning}
+
+\filename{图 28. 非常基础的 .ixx 模块接口文件}
+
+\begin{cpp}
+// my_module.ixx
+export module my_module;
+
+import std;
+
+// I'm only exporting the float overload
+export constexpr [[nodiscard]] float calc(float val) noexcept
+{
+  return val * 10.1f;
+}
+
+export void greet(std::string_view name);
+\end{cpp}
+
+\filename{图 29. 非常基础的 .cpp 模块实现文件}
+
+\begin{cpp}
+// my_module.cpp
+module my_module;
+
+import std;
+
+void greet(std::string_view name)
+{
+  std::println("Hello {}", name);
+}
+\end{cpp}
+
+\filename{图 30. 非常基础的模块使用方式}
+
+\begin{cpp}
+import my_module;
+
+int main()
+{
+  greet("Jason");
+}
+\end{cpp}
+
+\mySubsectionNoFile{30.1}{资源}
+
+\begin{itemize}
+\item
+《模块：初学者指南》- Daniela Engert - Meeting C++ 2019\footnote{\url{https://youtu.be/Kqo-jIq4V3I}}
+
+\item
+《当代 C++ 实践》- Daniela Engert - CppCon 2022\footnote{\url{https://youtu.be/yUIFdL3D0Vk}}
+
+\item
+《那么，你想跨平台使用 C++ 模块吗？》- Daniela Engert - C++ on Sea 2023\footnote{\url{https://youtu.be/DJTEUFRslbI}}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

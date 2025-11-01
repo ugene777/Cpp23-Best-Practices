@@ -42,7 +42,6 @@ Jason 使用和教授 C++ 已有二十多年。他是 [C++Weekly]https://www.you
 ## 本书相关
 
 * Github翻译地址：https://github.com/xiaoweiChen/Cpp23-Best-Practices
-* 在线阅读：https://xiaoweichen.github.io/Cpp23-Best-Practices/
 
 > [!NOTE]
 > 译版在Release中提供生成好的PDF文件以供下载，若需要其他格式请自行安装第三方工具(比如：Calibre)进行转换
@@ -61,11 +60,3 @@ Jason 使用和教授 C++ 已有二十多年。他是 [C++Weekly]https://www.you
 >  * Latex中的中文字体([思源宋体](https://github.com/notofonts/noto-cjk/releases))和英文字体([Hack](https://github.com/source-foundry/Hack-windows-installer/releases/tag/v1.6.0))，需要安装后自行配置。如何配置请参考主book/css.tex顶部关于字体的信息。
 >
 > vscode中配置LaTeX：https://blog.csdn.net/Ruins_LEE/article/details/123555016
-
-> [!TIP]
->
-> 生成静态网页：
->
-> 1. 先安装Python 3.10+，安装完成后可以用命令行`python --version`确定安装是否完成。
-> 2. 生成静态Web页面的命令`python ./tools/latex2html/main.py -i . -o ./docs`
-> 3. 进入docs文件夹，在浏览器里载入`index.html`即可。

@@ -1,0 +1,98 @@
+
+与 SFINAE 相比，概念将最终带来更好的错误信息、更短的编译时间，以及远胜于 SFINAE 的代码可读性。如果我们继续以 divide 函数为例，可以回顾之前“优先使用 if constexpr 而非 SFINAE”一章中的 if constexpr 版本。
+
+\filename{图44. ‘divide‘ 函数的 ‘if constexpr‘ 版本。}
+
+\begin{cpp}
+import std;
+
+template <typename Numerator, typename Denominator>
+[[nodiscard]] constexpr auto divide(Numerator numerator, Denominator de\
+nominator) {
+  if constexpr (std::is_integral_v<Numerator> &&
+                std::is_integral_v<Denominator>) {
+    // is integral division
+    if (denominator == 0) {
+      throw std::runtime_error("divide by 0!");
+    }
+  }
+
+  return numerator / denominator;
+}
+\end{cpp}
+
+我们可以使用概念将其拆分为两个不同的函数。概念可以在多种不同上下文中使用。此版本在函数声明后使用了简单的 requires 子句。
+
+\filename{图45. 在 ‘requires‘ 子句中使用概念。}
+
+\begin{cpp}
+import std;
+
+// overload resolution will pick the most specific version
+template <typename Numerator, typename Denominator>
+[[nodiscard]] constexpr auto divide(Numerator numerator, Denominator de\
+nominator) requires
+        (std::is_integral_v<Numerator>
+        && std::is_integral_v<Denominator>) {
+  // is integral division
+  if (denominator == 0) {
+    throw std::runtime_error("divide by 0!");
+  }
+  return numerator / denominator;
+}
+
+template <typename Numerator, typename Denominator>
+[[nodiscard]] constexpr auto divide(Numerator numerator, Denominator de\
+nominator) {
+  return numerator / denominator;
+}
+\end{cpp}
+
+此版本将概念用作函数参数。C++20 甚至提供了“auto 概念”，这是一种隐式的模板函数。
+
+\filename{图46. 简洁的概念要求语法。}
+
+\begin{cpp}
+import std;
+
+[[nodiscard]] constexpr auto divide(std::integral auto numerator,
+std::integral auto denominator) {
+  // is integer division
+  if (denominator == 0) {
+    throw std::runtime_error("divide by 0!");
+  }
+  return numerator / denominator;
+}
+
+[[nodiscard]] constexpr auto divide(auto numerator, auto denominator) {
+  // is floating point division
+  return numerator / denominator;
+}
+\end{cpp}
+
+\begin{myNotic}{}
+概念可以定义复杂的约束，包括对成员的期望。本节仅触及了其可能性的皮毛。
+\end{myNotic}
+
+\begin{myTip}{练习：了解 C++20 提供了哪些概念。}
+像往常一样，cppreference 通过提供概念列表来帮助你\footnote{\url{https://en.cppreference.com/w/cpp/concepts}}。
+\end{myTip}
+
+\begin{myTip}{练习：创建你自己的概念。}
+这个例子是否让你想到一些你想要但 <concepts> 头文件并未提供的概念？查看 cppreference 上非常简单的 std::integral 概念的实现\footnote{\url{https://en.cppreference.com/w/cpp/concepts/integral}}，看看是否能给你带来启发。
+\end{myTip}
+
+\mySubsectionNoFile{36.1}{资源}
+
+\begin{itemize}
+\item
+C++ Weekly 第194集：从 SFINAE 到 C++20 的概念\footnote{\url{https://youtu.be/dR64GQb4AGo}}
+
+\item
+C++ Weekly 第196集：什么是 requires requires\footnote{\url{https://youtu.be/tc0hVIOJk_U}}
+\end{itemize}
+
+
+
+
+

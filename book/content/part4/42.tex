@@ -1,0 +1,102 @@
+C++20 添加了 <format> 头文件，它提供了 std::format 函数。std::format 接收一个格式化字符串和参数，并返回一个 std::string 对象。
+
+format 具有以下优点：
+
+\begin{itemize}
+\item
+比 iostreams 编译速度更快
+
+\item
+比 iostreams 执行速度更快
+
+\item
+比 iostreams 更易读
+
+\item
+比 printf 系列函数更类型安全
+\end{itemize}
+
+\filename{图56. 简单的 format 用法}
+
+\begin{cpp}
+import std;
+
+int main()
+{
+  const auto result = std::format("Hello {}!", "Jason");
+}
+\end{cpp}
+
+不幸的是，C++20 的使用场景有些局限，主要机制是格式化为字符串，这往往导致我们写出如下代码：
+
+\filename{图57. format 与 cout 的用法}
+
+\begin{cpp}
+// using include because this is a C++20 example
+#include <format>
+
+int main()
+{
+  std::cout << std::format("Hello {}!\n", "Jason");
+}
+\end{cpp}
+
+为了解决这个问题，C++23 添加了 <print> 头文件，我们可以通过模块来使用它。
+
+\filename{图58. 使用 std::println}
+
+\begin{cpp}
+import std;
+
+int main()
+{
+  std::println("Hello {}!", "Jason");
+}
+\end{cpp}
+
+\begin{myTip}{}
+std::print 有多个重载版本，以及一个名为 std::println 的辅助函数，它会自动在消息末尾添加换行符。
+\end{myTip}
+
+\begin{myWarning}{}
+这个例子是一个过度复杂的示例！
+\end{myWarning}
+
+\filename{图59. 使用 std::print 的重载}
+
+\begin{cpp}
+import std;
+
+int main()
+{
+  std::print(std::cout, "Hello");
+  std::println(stdout, " World");
+}
+\end{cpp}
+
+\begin{myTip}{练习}
+学习 std::print 的语法，并开始将 std::cout 代码转换为 print 代码。
+\end{myTip}
+
+\begin{myTip}{练习}
+使用 clang-tidy 的 modernize-use-std-print\footnote{\url{https://clang.llvm.org/extra/clang-tidy/checks/modernize/use-std-print.html}} 检查器来升级你现有的 printf 系列函数。
+\end{myTip}
+
+\begin{myTip}{练习}
+看看你的 AI 编码助手是否能将 std::iostream 的用法转换为 std::format 和 std::print 命令（已知 ChatGPT 在这方面表现相当不错）。
+\end{myTip}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

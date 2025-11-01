@@ -1,0 +1,105 @@
+没有析构函数在正确的情况下总是更好的。空的析构函数会破坏性能：
+
+\begin{itemize}
+\item
+它们使类型不再平凡（trivial）
+
+\item
+没有任何功能用途
+
+\item
+可能影响析构的内联
+
+\item
+隐式地禁用了移动操作
+\end{itemize}
+
+\begin{myWarning}
+如果你需要析构函数，是因为你在进行资源管理，或者在定义一个带有虚函数的基类，那么你需要遵循“五规则”。
+\end{myWarning}
+
+如果你提供了一个自定义删除器，std::unique\_ptr 可以帮助你应用“零规则”。
+
+\begin{myTip}{练习：在你的代码中查找违反“零规则”的情况}
+
+查找像这样的代码（我保证你一定能找到）。
+
+\filename{图51. 空的、无意义的析构函数}
+
+\begin{cpp}
+struct S {
+	// a bunch of other things
+	~S() {}
+};
+\end{cpp}
+
+或者更糟的情况：
+
+\filename{图52. 前向声明的、空的、无意义的析构函数。}
+
+\begin{cpp}
+// file.hpp
+struct S {
+	~S();
+}
+
+// file.cpp
+S::~S() {}
+\end{cpp}
+\end{myTip}
+
+\begin{myNotic}
+对特殊成员函数的任何提及都会隐式地禁用编译器生成的移动操作。这包括 ~S() = default;。
+\end{myNotic}
+
+这些析构函数是必要的吗？如果不是，请将它们移除。
+如果这些析构函数存在于被多处使用的类型中，通过执行这个简单的操作，你很可能会测量到更小的二进制文件大小和更好的性能。
+
+\begin{verbatim}
+pImpl 惯用法的某些用法要求你定义一个析构函数。在这种情况下，请务必遵循“五规则”。
+\end{verbatim}
+
+\begin{myTip}{练习：使用compiler-explorer来查看违反“零规则”的代价。}
+\filename{图53. “零规则”意外影响}
+
+\begin{cpp}
+// experiment with this C++20 example in
+// compiler-explorer.com
+#include <vector>
+#include <string>
+
+struct S
+{
+	std::string data;
+
+	// uncomment this line and observe the size of the compiled
+	// binary in both -O3 and -O0 builds.
+	//~S() = default;
+};
+
+void some_func(std::vector<S> &data){
+	data.emplace_back();
+}
+\end{cpp}
+\end{myTip}
+
+\mySubsectionNoFile{39.1}{资源}
+
+\begin{itemize}
+\item
+C++ Reference: 三/五/零规则 \footnote{\url{https://en.cppreference.com/w/cpp/language/rule_of_three}}
+
+\item
+C++ Weekly 第154集：“减少代码膨胀的一个简单技巧”\footnote{\url{https://youtu.be/D8eCPl2zit4}}
+
+\item
+CppCon 2019: Jason Turner “伟大的 C++ is\_trivial”\footnote{\url{https://youtu.be/ZxWjii99yao}}
+\end{itemize}
+
+
+
+
+
+
+
+

@@ -1,0 +1,52 @@
+
+如果你发现自己正要选中一段代码并进行复制：请停下来！
+后退一步，重新审视一下这段代码。
+
+\begin{itemize}
+\item
+你为什么要复制它？
+
+\item
+源代码和目标代码会有多相似？
+
+\item
+将其做成一个函数是否更有意义？
+
+\item
+记住，不要害怕使用模板
+\end{itemize}
+
+我发现，这条简单的规则对我的代码质量产生了最直接的影响。
+
+如果复制的内容是打算放在当前函数内部，可以考虑使用 lambda 表达式。
+
+C++14 风格的 lambda（使用泛型参数，即 auto 参数）提供了一种简单易用的方法，来创建可重用的代码。它可以在不同数据类型间共享，同时又无需直接处理复杂的模板语法。
+
+\begin{myTip}{练习：尝试使用 CPD。}
+有一些不同的“复制粘贴检测器”（copy-paste-detector）工具，可以在你的代码库中查找重复的代码。
+在这个练习中，下载 PMD CPD 工具\footnote{\url{https://pmd.github.io/latest/pmd_userdocs_cpd.html}} 并在你的代码库上运行它。
+如果你使用 Arch Linux，可以通过 AUR 安装此工具。包名为 pmd；工具名为 pmd-cpd。
+你能识别出代码库中哪些关键部分是通过复制粘贴而来的吗？
+如果你发现其中一个版本存在 bug，会发生什么？你能否确保所有需要更新的地方都被找到并修复？
+\end{myTip}
+
+\mySubsectionNoFile{41.1}{资源}
+
+\begin{itemize}
+\item
+复制粘贴编程 \footnote{\url{https://www.viva64.com/en/t/0068/}}
+
+\item
+最后一行效应 \footnote{\url{https://www.viva64.com/en/b/0260/}}
+
+\item
+我不会复制粘贴代码 \footnote{\url{https://twitter.com/bjorn_fahller/status/1072432257799987200}}
+\end{itemize}
+
+
+
+
+
+
+
+

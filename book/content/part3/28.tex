@@ -1,0 +1,156 @@
+考虑一下 POSIX 套接字的 API：
+
+\filename{图 12. POSIX 套接字 API}
+
+\begin{cpp}
+socket(int, int, int);
+\end{cpp}
+
+这些参数（顺序不定）代表：
+
+\begin{itemize}
+\item
+类型（type）
+
+\item
+协议（protocol）
+
+\item
+域（domain）
+\end{itemize}
+
+这种设计是有问题的，但类似的问题也可能潜藏在我们的代码中。
+
+\filename{图 13. 定义不佳的构造函数}
+
+\begin{cpp}
+Rectangle(int, int, int, int);
+\end{cpp}
+
+这个函数的参数可能是 (x, y, width, height)，也可能是 (x1, y1, x2, y2)。虽然可能性较小，但也可能是 (width, height, x, y)。
+
+您如何看待如下这样的 API 呢？
+
+\filename{图 14. 强类型化的构造函数}
+
+\begin{cpp}
+Rectangle(Position, Size);
+\end{cpp}
+
+在许多情况下，只需稍加努力，就可以创建出类型更强的 API。
+
+\filename{图 15. 更强类型的定义}
+
+\begin{cpp}
+struct Position {
+  int x;
+  int y;
+};
+
+struct Size {
+  int width;
+  int height;
+};
+
+struct Rectangle {
+  Position position;
+  Size size;
+};
+\end{cpp}
+
+这还能进一步支持通过运算符重载实现逻辑上可组合的表达式，例如：
+
+\filename{图 16. 关联类型的运算符重载}
+
+\begin{cpp}
+// Return a new rectangle that has been
+// moved by the offset amount passed in
+Rectangle operator+(Rectangle, Position);
+\end{cpp}
+
+\begin{myTip}{}
+在某些情况下，创建结构体甚至可能提升性能，详见 C++ Weekly Ep 119《负成本结构体》\footnote{\url{https://youtu.be/FwsO12x8nyM}}。
+\end{myTip}
+
+\mySubsectionNoFile{28.1}{避免使用布尔参数}
+
+本书的一位预发布读者指出，Steve Maguire 在其著作《Writing Solid Code》（编写坚固的代码）第 5 章中提到：“让代码在调用点清晰可读。避免使用布尔参数。”
+
+C++11 中的 enum class 提供了一种简便的方式，可以实现更强的类型检查，避免使用布尔参数，并使您的 API 更难被误用。
+
+考虑以下代码：
+
+\filename{图 17. 参数顺序不明确的构造函数}
+
+\begin{cpp}
+struct Widget {
+  // this constructor is easy to use wrong, we
+  // can easily transpose the parameters
+  Widget(bool visible, bool resizable);
+}
+\end{cpp}
+
+对比以下改进版本：
+
+\filename{图 18. 使用作用域枚举实现更强的类型检查}
+
+\begin{cpp}
+struct Widget {
+  enum struct Visible { True, False };
+  enum struct Resizable { True, False };
+
+  // still possible to use this wrong, but MUCH harder
+  Widget(Visible visible, Resizable resizable);
+}
+\end{cpp}
+
+\begin{myTip}{练习：识别现有代码中的问题 API}
+您是否经常把某些函数调用的参数顺序搞错？该如何修复？
+\end{myTip}
+
+\begin{myTip}{练习：研究 C++ 的强类型 typedef 库}
+有一些现成的库可以简化创建强类型整数时的样板代码。Jonathan Muller、Bjorn Fahller 和 Peter Sommerlad 都开发过此类库，还有其他选择可用。
+\end{myTip}
+
+\begin{myTip}{练习：考虑使用 =delete 删除有问题的转换}
+\filename{图 19. 简单的函数声明}
+
+\begin{cpp}
+double high_precision_thing(double);
+\end{cpp}
+
+如果用 float 调用上述函数很可能是一个 bug，该怎么办？
+
+\filename{图 20. 删除从 'float' 到 'double' 的有问题的隐式提升}
+
+\begin{cpp}
+double high_precision_thing(double);
+double high_precision_thing(float) = delete;
+\end{cpp}
+
+在 C++11 中，任何函数或重载都可以使用 =delete 来禁用。
+\end{myTip}
+
+\begin{myTip}{}
+启用 clang-tidy 的 Easily Swappable Parameters 检查\footnote{\url{https://clang.llvm.org/extra/clang-tidy/checks/bugprone-easily-swappable-parameters.html}} check
+\end{myTip}
+
+\mySubsectionNoFile{28.2}{资源}
+
+\begin{itemize}
+\item
+C++ Weekly Ep 107: “=delete 的威力”\footnote{\url{https://youtu.be/aAvjUU0m6AU}}
+
+\item
+Adi Shavit 和 Björn Fahller “关联类型的奇特递归模式”\footnote{\url{https://youtu.be/msi4WNQZyWs}}
+
+\item
+研究“仿射空间类型（Affine space types）”。
+
+\item
+C++Now 2017: Jonathan Müller “类型安全编程”\footnote{\url{https://youtu.be/iihlo9A2Ezw}}
+\end{itemize}
+
+
+
+

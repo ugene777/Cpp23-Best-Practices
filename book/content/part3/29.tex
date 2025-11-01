@@ -1,0 +1,127 @@
+[[nodiscard]] 是 C++ 的一个属性，用于告诉编译器：如果忽略了一个函数的返回值，则应发出警告。它可以用于函数上：
+
+\filename{图 21. [[nodiscard]] 的使用示例}
+
+\begin{cpp}
+[[nodiscard]] int get_value();
+
+int main()
+{
+  // warning, [[nodiscard]] value ignored
+  get_value();
+}
+\end{cpp}
+
+也可以用于类型上：
+
+\filename{图 22. 在类型上使用 [[nodiscard]]}
+
+\begin{cpp}
+struct [[nodiscard]] ErrorCode{};
+
+ErrorCode get_value();
+
+int main()
+{
+  // warning, [[nodiscard]] value ignored
+  get_value();
+}
+\end{cpp}
+
+C++20 增加了提供描述信息的功能。
+
+\filename{图 23. C++20 中带描述的 [[nodiscard]]}
+
+\begin{cpp}
+[[nodiscard("Ignoring this result leaks resources")]]
+\end{cpp}
+
+我们之前的 divide 示例是 [[nodiscard]] 的一个直接应用。
+
+\filename{图 24. 在 divide 函数上应用 [[nodiscard]]}
+
+\begin{cpp}
+import std;
+
+[[nodiscard]] constexpr auto divide(std::integral auto numerator,
+                                    std::integral auto denominator) {
+  // is integer division
+  if (denominator == 0) {
+    throw std::runtime_error("divide by 0!");
+  }
+  return numerator / denominator;
+}
+
+[[nodiscard]] constexpr auto divide(auto numerator, auto denominator) {
+  // is floating point division
+  return numerator / denominator;
+}
+\end{cpp}
+
+甚至可以用于构造函数：
+
+\filename{图 25. [[nodiscard]] 构造函数示例}
+
+\begin{cpp}
+struct Holder
+{
+  // warn if the result of this constructor is unused
+  [[nodiscard]] Holder() = default;
+
+  // bad practice, but exists so that GCC does, in fact,
+  // generate a warning for this code below.
+  int *p = new int();
+};
+
+int main()
+{
+  // should generate a warning
+  Holder();
+}
+\end{cpp}
+
+\begin{myTip}{练习：制定使用 [[nodiscard]] 的规则}
+阅读 Reddit 上的讨论 “An Argument Pro Liberal Use Of nodiscard”\footnote{\url{https://www.reddit.com/r/cpp/comments/9us7f3/an_argument_pro_liberal_use_of_nodiscard/}}。审视您自己的类型和函数。哪些返回值应该标记为 [[nodiscard]]？
+
+如果调用这些函数并忽略结果，应该产生编译错误还是警告？
+
+\begin{itemize}
+\item
+vector.size()
+
+\item
+vector.empty()
+
+\item
+vector.insert()
+\end{itemize}
+\end{myTip}
+
+\mySubsectionNoFile{29.1}{资源}
+
+\begin{itemize}
+\item
+“An Argument Pro Liberal Use Of nodiscard”\footnote{\url{https://www.reddit.com/r/cpp/comments/9us7f3/an_argument_pro_liberal_use_of_nodiscard/}}
+
+\item
+C++ Weekly Ep 30: C++17 的 [[nodiscard]] 属性\footnote{\url{https://youtu.be/l_5PF3GQLKc}}
+
+\item
+C++ Weekly Ep 199: C++20 的 [[nodiscard]] 构造函数及其用途\footnote{\url{https://youtu.be/E_ROB_xUQQQ}}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

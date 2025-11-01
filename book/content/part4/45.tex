@@ -1,0 +1,94 @@
+许多人（如 Kate Gregory 和 James McNellis）都曾多次强调过这一点。将对象声明为 const 有两个作用：
+
+\begin{enumerate}
+\item
+它迫使我们思考对象的初始化和生命周期，而这会影响性能。
+
+\item
+向我们代码的阅读者传达了明确的语义。
+\end{enumerate}
+
+顺便提一下，如果是一个静态对象，编译器现在可以自由地将其移至二进制文件的常量区域，这可能会影响优化器的行为。
+
+\begin{myTip}{练习：寻找使用 const 的机会。}
+当你浏览代码时，应寻找那些未声明为 const 的变量，并将它们改为 const。
+\end{myTip}
+
+\begin{itemize}
+\item
+如果一个变量不是 const，请思考为什么不是？
+
+\item
+使用 lambda 表达式或添加一个具名函数是否能让该值变为 const？
+\end{itemize}
+
+\begin{cpp}
+const auto data = [](){ // no parameters
+  std::vector<int> result;
+  // fill result with things.
+  return result;
+}(); // immediately invoked
+\end{cpp}
+
+\begin{myTip}{}
+由于返回值优化（RVO），使用 lambda 通常不会增加任何开销，甚至可能提升性能。
+\end{myTip}
+
+在这一过程中，你是否将一些 static 变量改为了 const？如果是，请继续进行 constexpr 相关的练习。
+
+\begin{myWarning}{}
+对于将要返回的值，使用 const 在某些情况下可能会破坏隐式移动（implicit moves）！
+\end{myWarning}
+
+然而，需要注意的是，总体而言，依赖返回值的隐式移动和 RVO 可能会有些脆弱。最好的做法是干脆不要给要返回的对象命名。
+
+\begin{cpp}
+ReturnType some_function(int value)
+{
+  // 如果 result 和 ReturnType 的类型不同，
+  // 且存在隐式转换，则会破坏隐式移动。
+  // 如果类型相同，则依赖编译器进行 NRVO（命名返回值优化），
+  // 但这在包含多个分支的代码中并不总是有效
+  const auto result = get_value(value + 42);
+  return result;
+}
+\end{cpp}
+
+\filename{图64. 优先避免命名临时对象}
+\begin{cpp}
+ReturnType some_function(int value)
+{
+  // 如果 result 和 ReturnType 的类型不同，
+  // 且存在隐式转换，则会触发隐式移动。
+  // 如果类型相同，则从 C++17 起适用强制的复制/移动省略
+  return get_value(value + 42);
+}
+\end{cpp}
+
+\begin{myNotic}{}
+Clang-tidy 的 No Automatic Move\footnote{\url{https://clang.llvm.org/extra//clang-tidy/checks/performance-no-automatic-move.html}} 分析功能在很大程度上是有缺陷的。它在 NRVO 拷贝省略适用时仍会发出警告，而在真正重要的地方却不会警告！（截至 2022 年 2 月 23 日）。参见此分析：\url{https://compiler-explorer.com/z/a4K76nbhq}。
+\end{myNotic}
+
+\begin{myWarning}{}
+你可能不希望将类成员声明为 const；这可能会破坏移动构造和移动赋值等关键功能，有时甚至是静默发生的。
+\end{myWarning}
+
+\mySubsectionNoFile{45.1}{资源}
+
+\begin{itemize}
+\item
+CppCon 2014: James McNellis \& Kate Gregory “Modernizing Legacy C++ Code”\footnote{\url{https://youtu.be/LDxAgMe6D18}}
+
+\item
+CppCon 2019: Jason Turner “C++ Code Smells”\footnote{\url{https://youtu.be/f_tLQl0wLUM}}
+
+\item
+C++ 中 const 或引用成员变量的影响\footnote{\url{https://lesleylai.info/en/const-and-reference-member-variables/}}
+
+\item
+C++Now 2018: Ben Deane “Easy to Use, Hard to Misuse: Declarative Style in C++”\footnote{\url{https://youtu.be/2ouxETt75R4}}（建立在使 const 更易应用的技术之上。）
+\end{itemize}
+
+
+
+

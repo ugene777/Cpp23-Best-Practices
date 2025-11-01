@@ -1,0 +1,86 @@
+如果你因为 std::unique\_ptr 不适用于你的使用场景而提供了析构函数，那么你必须对其他特殊成员函数进行 =delete、=default 或手动实现。
+
+这个规则最初被称为“三规则”，在 C++11 之后被称为“五规则”。
+
+\filename{图54. 特殊成员函数。}
+
+\begin{cpp}
+struct S {
+  S(); // default constructor
+       // does not affect other special member functions
+
+  // If you define any of the following, you must deal with
+  // all the others.
+  S(const S &); // copy constructor
+  S(S&&); // move constructor
+  S &operator=(const S &); // copy assignment operator
+  S &operator=(S &&); // move assignment operator
+};
+\end{cpp}
+
+\begin{myTip}{}
+如果你不知道如何处理这些特殊成员函数，使用 =delete 是一种安全的方式！
+\end{myTip}
+
+当你声明带有虚函数的基类时，也应该遵循“五规则”。
+
+\filename{图55. 多态类型中的五规则。}
+
+\begin{cpp}
+struct Base {
+  virtual void do_stuff();
+
+  // because of the virtual function we know this class
+  // is intended for polymorphic use, therefore our
+  // tools will tell us to define a virtual destructor
+  virtual ~Base() = default;
+
+  // and now we need to declare the other special members
+  // a good safe bet is to delete them, because properly and safely
+  // copying or assigning an object via a reference or pointer
+  // to a base class is hard / impossible
+
+  S(const S &) = delete;
+  S(S &&) = delete;
+  S &operator=(const S &) = delete;
+  S &operator=(S &&) = delete;
+};
+
+struct Derived : Base {
+  // We don't need to define any of the special members
+  // here, they are all inherited from `Base`.
+}
+\end{cpp}
+
+\begin{myNotic}{}
+除了使用 = delete，你也可以考虑将这些特殊成员函数设为 protected。
+\end{myNotic}
+
+\begin{myTip}{练习：实现你自己的 unique\_ptr<> 模板}
+要完全做对是很困难的。编写测试用例。理解为什么默认生成的特殊成员函数无法正常工作。
+
+额外加分：使用 C++20 的 constexpr 动态分配支持来实现它。
+\end{myTip}
+
+\begin{myTip}{练习：在你的代码中查找违反“五规则”的情况}
+当你定义特殊成员函数时，很可能没有在现有代码中提供一致的生命周期语义。为了评估其影响，你可以快速地将任何缺失的特殊成员函数声明为 = delete;，然后看看哪些地方会出错。
+\end{myTip}
+
+\mySubsectionNoFile{40.1}{资源}
+
+\begin{itemize}
+\item
+C++ Reference: 三/五/零规则 \footnote{\url{https://en.cppreference.com/w/cpp/language/rule_of_three}}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
