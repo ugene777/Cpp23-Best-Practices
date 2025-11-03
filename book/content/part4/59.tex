@@ -1,0 +1,124 @@
+尽管编译器在不断改进，优化器也在努力处理这些类型的复杂性，但它们仍然很可能带来显著的编译时和运行时开销。
+
+C++14 的 Lambda 表达式凭借其泛化的捕获功能，已经能够实现 std::bind 所能完成的所有事情。
+
+\begin{myTip}{}
+std::function 不支持 constexpr，这是另一个你可能需要避免在代码中使用它的原因。
+\end{myTip}
+
+\filename{图 115. 使用 'std::bind' 改变参数顺序}
+\begin{cpp}
+import std;
+
+[[nodiscard]] constexpr double divide(double numerator, double denominator) {
+  return numerator / denominator;
+}
+
+auto inverted_divide = std::bind(divide,
+                                 std::placeholders::_2,
+                                 std::placeholders::_1);
+\end{cpp}
+
+\filename{图 116. 使用 Lambda 改变参数顺序}
+\begin{cpp}
+import std;
+
+[[nodiscard]] constexpr double divide(double numerator, double denominator) {
+  return numerator / denominator;
+}
+
+auto inverted_divide = [](const auto numerator,
+                          const auto denominator) {
+  return divide(denominator, numerator)
+}
+\end{cpp}
+
+\begin{myTip}{练习：比较各种可能性。}
+在 Compiler Explorer 中尝试这些选项。它们的编译时间和生成的汇编代码是怎样的？
+
+\filename{图 117. ‘std::function‘ 和 ‘std::bind‘}
+\begin{cpp}
+import std;
+
+// std::function 不支持 constexpr，因此这里不能用 constexpr
+[[nodiscard]] std::function<int (int)> bind_3(auto func)
+{
+  return std::bind(func, std::placeholders::_1, 3);
+}
+
+int main(int argc, const char *[])
+{
+  return bind_3(std::plus<>{})(argc);
+}
+\end{cpp}
+
+\filename{图 118. 仅使用 ‘std::bind‘，额外加分项：函数 ‘bind\_3‘ 返回的类型是什么？}
+\begin{cpp}
+#include <functional>
+
+// std::bind 支持 constexpr
+[[nodiscard]] constexpr auto bind_3(auto func)
+{
+  return std::bind(func, std::placeholders::_1, 3);
+}
+
+int main(int argc, const char *[])
+{
+  return bind_3(std::plus<>{})(argc);
+}
+\end{cpp}
+
+\filename{图 119. 仅使用 Lambdas，不使用任何 std 库包装器。}
+\begin{cpp}
+#include <functional>
+
+[[nodiscard]] constexpr auto bind_3(auto func)
+{
+  return [func](const int value){ return func(value, 3); };
+}
+
+int main(int argc, const char *[])
+{
+  return bind_3(std::plus<>{})(argc);
+}
+\end{cpp}
+\end{myTip}
+
+\begin{myTip}{练习：查看 std::bind\_front, std::bind\_back}
+\filename{图 120. C++23 的 bind\_back}
+\begin{cpp}
+#include <functional>
+
+[[nodiscard]] constexpr auto bind_3(auto func)
+{
+  return std::bind_back(func, 3);
+}
+
+int main(int argc, const char *[])
+{
+  return bind_3(std::plus<>{})(argc);
+}
+\end{cpp}
+\end{myTip}
+
+\mySubsectionNoFile{59.1}{资源}
+
+\begin{itemize}
+\item
+CppCon 2015: Stephan T. Lavavej “新特性介绍及正确用法\footnote{\url{https://youtu.be/zt7ThwVfap0}}
+
+\item
+C++ 周刊 第16集：“避免使用 std::bind”\footnote{\url{https://youtu.be/ZlHi8txU4aQ}}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+

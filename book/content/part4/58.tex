@@ -1,0 +1,33 @@
+你已经在避免使用堆（heap）并使用智能指针来管理资源了，对吧？！
+
+更进一步，在极少数确实需要使用堆的情况下，请务必使用 std::make\_unique<>()\footnote{\url{https://en.cppreference.com/w/cpp/memory/unique_ptr/make_unique}} (C++14)。
+
+在极少数需要共享所有权的情况下，请使用 std::make\_shared<>()\footnote{\url{https://en.cppreference.com/w/cpp/memory/shared_ptr/make_shared}} (C++11)。
+
+\begin{myTip}{练习：你使用 Qt 或其他某个部件库吗？}
+你有没有想过要写一个自己的 make\_qobject 辅助函数？给它赋予你需要的语义，并确保使用 [[nodiscard]]。
+无论如何，你都可以将 new 的使用限制在少数几个核心库的辅助函数中。
+\end{myTip}
+
+\begin{myTip}{练习：使用 clang-tidy 的现代化修复功能。}
+通过 clang-tidy，你可以自动将 new 语句转换为 make\_unique<> 和 make\_shared<> 的调用。记得使用 -fix 选项，在发现问题后自动应用更改。
+\end{myTip}
+
+\mySubsectionNoFile{58.1}{资源}
+
+\begin{itemize}
+\item
+clang-tidy modernize-make-shared\footnote{\url{https://clang.llvm.org/extra/clang-tidy/checks/modernize-make-shared.html}}
+
+\item
+clang-tidy modernize-make-unique\footnote{\url{https://clang.llvm.org/extra/clang-tidy/checks/modernize-make-unique.html}}
+\end{itemize}
+
+
+
+
+
+
+
+
+

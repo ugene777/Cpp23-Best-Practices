@@ -1,0 +1,62 @@
+尽可能将代码移出模板。使用其他函数，使用基类。编译器仍然可以自由地选择将它们内联或不内联。减少模板的使用能够改善编译时间并减小二进制文件大小，这两点都有益处。这样做还能消除人们通常所说的“模板代码膨胀”（在我看来这种现象并不存在\footnote{\url{https://articles.emptycrate.com/2008/05/06/nobody_understands_c_part_5_template_code_bloat.html}}）（文章格式在某个时候被破坏了，抱歉）。
+
+\filename{图 111. 每个函数模板实例化都生成一个新的 lambda。}
+\begin{cpp}
+template<typename T>
+constexpr void do_things()
+{
+  // 此 lambda 必须为每个模板实例化生成一次
+  auto lambda = [](){ /* 不捕获的 lambda */ };
+  auto value = lambda();
+}
+\end{cpp}
+
+对比：
+
+\filename{图 112. 模板实例化之间共享逻辑。}
+\begin{cpp}
+constexpr auto some_function() { /* do things*/ }
+
+template<typename T>
+constexpr void do_things()
+{
+  auto value = some_function();
+}
+\end{cpp}
+
+现在，内部逻辑只编译一次，至于是否内联，则由编译器决定。类似的技术也适用于基类和带有模板的派生类。
+
+\begin{myTip}{练习：Bloaty McBloatface 和 -ftime-trace。}
+我们拥有的用于查找二进制文件膨胀和分析编译时间的工具越来越多。请研究一下这些工具以及你的平台上可用的其他工具。
+
+在你的二进制文件上运行它们，看看你能发现什么。使用 Clang 的 -ftime-trace 时，也可以了解一下 ClangBuildAnalyzer。
+\end{myTip}
+
+\mySubsectionNoFile{56.1}{资源}
+
+\begin{itemize}
+\item
+Templight\footnote{\url{https://github.com/mikael-s-persson/templight}}
+
+\item
+C++ 周刊 第89集：“过度使用Lambda”\footnote{\url{https://youtu.be/OmKMNQFx_8Y}}
+
+\item
+C++ 周刊 2019 圣诞特辑 - 第 3 章\footnote{\url{https://www.youtube.com/watch?v=VEqOOKU8RjQ&list=PLs3KjaCtOwSY_Awyliwm-fRjEOa-SRbs-&index=16}} （这是第 3 章的第一集，介绍了两种不同选项为何存在差异的问题\footnote{\url{https://godbolt.org/z/b4znvK}}。该播放列表中的接下来几集提供了一些背景知识，而第 4 章的开头给出了答案。这与模板膨胀问题密切相关。）
+
+\item
+《Effective C++ (第三版)》条款 44 - 将与参数无关的代码从模板中分离出来
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+

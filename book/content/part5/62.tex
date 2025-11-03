@@ -1,0 +1,79 @@
+一些让构建过程不那么痛苦的实用建议
+
+\begin{itemize}
+\item
+尽可能地减少代码的模板化（De-template-ize your code）
+
+\item
+在合理的情况下使用前置声明（forward declarations）
+
+\item
+在你的构建系统中启用 PCH（预编译头文件）
+
+\item
+使用 ccache 或类似工具（还有很多其他选择，且不断更新，可以自行搜索）
+
+\item
+了解并关注“统一构建”（unity builds）
+
+\item
+了解 extern template 的可能性和局限性
+
+\item
+使用构建分析工具来查看构建时间都花在了哪里
+\end{itemize}
+
+\mySubsectionNoFile{61.1}{使用一个 IDE}
+
+这是我观察到的使用现代 IDE 最令人惊讶的副作用之一：
+IDE 会对代码进行实时分析。这意味着你在输入代码时就能立刻知道它是否能够编译。因此，你花费在等待构建上的时间会大大减少。
+
+\begin{myTip}{练习：构建时间正在消耗你什么？}
+试着计算一下，构建时间在开发人员时间上造成了多少成本，并估算一下如果能缩短构建时间，可以节省多少。
+\end{myTip}
+
+\mySubsectionNoFile{62.2}{资源}
+
+\begin{itemize}
+\item
+统一构建指南\footnote{\url{https://onqtam.com/programming/2018-07-07-unity-builds/}}
+
+\item
+使用 Meson 进行统一构建\footnote{\url{https://mesonbuild.com/Unity-builds.html}}
+
+\item
+使用 CMake 进行统一构建\footnote{\url{https://cmake.org/cmake/help/latest/prop_tgt/UNITY_BUILD.html}}
+
+\item
+使用 Meson 配置 PCH\footnote{\url{https://mesonbuild.com/Precompiled-headers.html}}
+
+\item
+使用 CMake 配置 PCH\footnote{\url{https://cmake.org/cmake/help/latest/command/target_precompile_headers.html}}
+
+\item
+ccache\footnote{\url{https://ccache.dev/}}
+
+\item
+CMake 编译器启动器\footnote{\url{https://cmake.org/cmake/help/latest/prop_tgt/LANG_COMPILER_LAUNCHER.html?highlight=ccache}}
+
+\item
+Clang Build Analyzer\footnote{\url{https://github.com/aras-p/ClangBuildAnalyzer}}
+
+\item
+C++ Build Insights 入门\footnote{\url{https://docs.microsoft.com/en-us/cpp/build-insights/get-started-with-cpp-build-insights?view=vs-2019}}
+
+\item
+介绍用于 C++ 构建时间分析的 vcperf /timetrace\footnote{\url{https://devblogs.microsoft.com/cppblog/introducing-vcperf-timetrace-for-cpp-build-time-analysis/}} 
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+

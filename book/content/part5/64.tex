@@ -1,0 +1,113 @@
+
+一个令人惊讶的复杂性隐藏在看似简单的 C++ Lambda 表达式背后。Lambda 最初在 C++11 中引入，起初功能受限。随着每个 C++ 版本的演进，Lambda 变得越来越灵活和强大。
+Lambda 反转了 C++ 其他部分的一些默认规则。它们默认是 const 的，并且在可能的情况下会自动成为 constexpr；这些特性给了我们一些我们希望整个语言都能拥有的东西。
+
+\filename{图 127. Lambda 语法}
+\begin{cpp}
+lambda-expression:
+  lambda-introducer lambda-declarator(opt) compound-statement
+  lambda-introducer < template-parameter-list > requires-clause(opt)
+       lambda-declarator(opt) compound-statement
+lambda-introducer:
+  [ lambda-capture(opt) ]
+lambda-declarator:
+  ( parameter-declaration-clause ) decl-specifier-seq(opt)
+        noexcept-specifier(opt) attribute-specifier-seq(opt)
+        trailing-return-type(opt) requires-clause(opt)
+\end{cpp}
+
+如果你能读懂标准文档中的“行话”\footnote{\url{http://eel.is/c++draft/expr.prim.lambda}}，你就可以自己深入探究 C++20 Lambda 的所有特性。
+
+\filename{图 128. 截至 C++20 允许的 Lambda 示例。}
+\begin{cpp}
+// 有效的空 Lambda，什么都不做
+[]{};
+// 参数列表是可选的
+{};
+// C++17 显式 constexpr 和 void 返回
+ constexpr -> void {};
+// 立即调用的 Lambda
+auto i = { return 42; }();
+// 在 C++17 之前不允许，因为需要 constexpr
+constexpr auto j = []{ return 42; }();
+// 泛型 Lambda，C++14
+[](auto x){ return x + 42; };
+// 可变参数 Lambda，C++14
+[](auto ... x){ return std::vector(x...); };
+// 值捕获，C++11
+i{ return i + 42; };
+// 通用捕获，C++14 (这里的 i 是什么类型？)
+[i = 42]{ return i + 42; };
+// 有状态的 Lambda，C++11
+i mutable { return ++i; };
+// 显式模板，C++20
+[](T x){ return x + 42; };
+
+// C++14 的泛型 Lambda，返回一个 C++20 的 Lambda，
+// 该 Lambda 使用可变参数捕获表达式，并返回一个对捕获值进行折叠表达式求和的结果。
+[](auto ... val){ return [...val = val]{ return (val + ...); }; };
+\end{cpp}
+
+如果你理解了 C++ Lambda 的每一个方面以及编译器如何实现它们，那么你就掌握了 C++ 中所有重要的知识。
+这就是为什么我专门在 YouTube 上制作了一个关于 Lambda 的 C++ 课程\footnote{\url{https://www.youtube.com/playlist?list=PLs3KjaCtOwSY_Awyliwm-fRjEOa-SRbs}}。
+
+2018 年，当编译器刚开始支持 C++20 的新 Lambda 时，我使用 Lambda 实现了一个基本符合标准的 std::bind 版本。
+
+\filename{图 129. 使用 C++20 Lambda 实现的 ‘std::bind‘。}
+\begin{cpp}
+template <std::size_t Idx>
+struct Placeholder {};
+
+template <typename T>
+struct Bound {
+  constexpr decltype(auto) operator()(auto &&...param) const {
+    return t(std::forward<decltype(param)>(param)...);
+  }
+
+  T t;
+};
+
+template <typename T>
+Bound(T) -> Bound<T>;
+
+template <std::size_t Idx, typename T>
+constexpr decltype(auto) get_param(const Placeholder<Idx> &,
+                                   T &&t) {
+  return std::get<Idx>(t);
+}
+
+template <typename Param, typename T>
+constexpr decltype(auto) get_param(Param &&param, T &&) {
+  return std::forward<Param>(param);
+}
+
+template <typename Param, typename T>
+constexpr decltype(auto) get_param(const Bound<Param> &b,
+                                   T &&t) {
+  return std::apply(b, std::forward<T>(t));
+}
+
+constexpr decltype(auto) bind(auto &&callable, auto &&...param) {
+  return Bound{
+    [callable = std::forward<decltype(callable)>(callable),
+    ... xs = std::forward<decltype(param)>(param)]
+    (auto &&...values) {
+      auto passed_params =
+        std::forward_as_tuple(
+          std::forward<decltype(values)>(values)...);
+      return std::invoke(callable,
+                         get_param(xs, passed_params)...);
+    }
+  };
+}
+\end{cpp}
+
+我已经有两年没看过这段代码了，但这里有一个 Compiler Explorer 链接供你玩味。
+
+\url{https://godbolt.org/z/hhde3P}
+
+\begin{myTip}{练习：理解并批判性地评价给出的例子。}
+对于上面的例子，我本可以做得有什么不同？它能否用概念（concepts）加以约束？是否需要更好的命名？你会怎么做？
+\end{myTip}
+
+

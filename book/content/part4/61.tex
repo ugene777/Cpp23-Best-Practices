@@ -1,0 +1,100 @@
+直接初始化（Direct-Initialization）提供了一种高效的方式来初始化公有数据成员。
+
+\filename{图 124. 直接初始化示例}
+\begin{cpp}
+#include <string>
+
+struct Data
+{
+std::string first;
+std::string second;
+};
+
+int main()
+{
+  // 直接初始化数据成员 first 和 second
+  // 这种方式没有拷贝或移动的开销，也无需考虑如何为此编写高效的构造函数。
+  Data d{"Hello", "World"};
+}
+\end{cpp}
+
+其缺点是代码可读性较差。我们无法直观地知道那两个参数 "Hello" 和 "World" 分别对应哪个成员。
+
+C++20 引入了“指定初始化器”（designated initializers），允许你明确指定要初始化的对象名称。
+
+\begin{itemize}
+\item
+它们必须按声明顺序进行初始化
+
+\item
+可以跳过某些成员的初始化
+
+\item
+必须一致地提供成员名称
+\end{itemize}
+
+\filename{图 125. 指定初始化器示例}
+\begin{cpp}
+#include <string>
+
+struct Data
+{
+  std::string first;
+  std::string second;
+};
+
+int main()
+{
+  Data d{.first = "Hello", .second = "World"};
+}
+\end{cpp}
+
+\begin{myNotic}{}
+重要提示：当使用指定初始化器时，如果遗漏了某个参数，编译器在发出警告方面表现不一致。请务必使用多个编译器并开启高级别的警告选项进行编译。
+\end{myNotic}
+
+\begin{myTip}{练习：将一个具有公有成员的简单结构体与一个具有私有成员和构造函数的结构体进行比较。}
+\filename{图 126. 实现构造函数以及 getter 方法}
+\begin{cpp}
+#include <string>
+
+class Data
+{
+public:
+  // add constructor(s), getters and setters
+  // * Is this better?
+  // * How much compile-time and run-time
+  // overhead to does add?
+private:
+  std::string first;
+  std::string second;
+};
+\end{cpp}
+\end{myTip}
+
+\begin{myTip}{}
+在许多情况下，简单的公有结构体比带有 getter、setter 和复杂构造函数的类更好。但这仅在各成员值之间没有相互依赖关系（即不存在需要维护的不变式）时才成立。
+\end{myTip}
+
+\mySubsectionNoFile{61.1}{资源}
+
+\begin{itemize}
+\item
+C++ 周刊 第127集：C++20 的指定初始化器\footnote{\url{https://youtu.be/44rs_hX1dxE}}
+
+\item
+C++ 周刊 第274集 - 为什么我的 Pair 比 std::pair 快 310 倍？\footnote{\url{https://youtu.be/3LsRYnRDSRA}}
+
+\item
+C++ Stories: C++20: 指定初始化器\footnote{\url{https://www.cppstories.com/2021/designated-init-cpp20/}}
+
+\item
+Modernes C++: 指定初始化器\footnote{\url{https://www.modernescpp.com/index.php/designated-initializers}}
+
+\item
+Abseil 小贴士 第172期：指定初始化器\footnote{\url{https://abseil.io/tips/172}}
+\end{itemize}
+
+
+
+
