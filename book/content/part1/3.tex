@@ -1,4 +1,4 @@
-最佳实践，简单来说，就是关于：
+最佳实践，简单来说就是：
 
 \begin{enumerate}
 \item
@@ -8,37 +8,37 @@
 快速发现错误
 
 \item
-在不牺牲(并且通常还能提升)性能的前提下实现以上两点
+不牺牲(并且通常还能提升)性能的前提下实现以上两点
 \end{enumerate}
 
 \mySubsectionNoFile{3.1}{为何需要最佳实践？}
 
-首先，让我们明确一点：
+首先，明确一点：
 
 \mySubsubsection{3.1.1}{你的项目并不特殊}
 
 如果你在使用 C++ 编程，那么你或你公司的某个人一定在乎性能。否则，他们可能早就选择使用其他编程语言了。我接触过许多公司，他们都告诉我自己很特殊，因为他们需要快速完成任务！
 
-剧透一下：他们做出的决定其实都大同小异，原因也基本相同。真正例外的很少。那些做出不同决策的特例公司，恰恰是已经遵循了本书建议的组织。
+剧透一下：他们做出的决定其实都大同小异，原因也基本相同，真正的例外很少。那些做出不同决策的特例公司，恰恰是遵循了本书建议的组织。
 
 \mySubsectionNoFile{3.2}{最坏的情况是什么？}
 
-我不想制造悲观情绪，但让我们花点时间思考一下：如果你的项目存在严重缺陷，最坏的情况会怎样？
+我不想制造悲观情绪，但请花点时间思考一下：如果你的项目存在严重缺陷，最坏的情况会怎样？
 
 \noindent
 \textbf{游戏}
 
-严重缺陷会导致远程漏洞或攻击入口。
+导致远程漏洞或攻击入口。
 
 \noindent
 \textbf{金融}
 
-严重缺陷会导致巨额资金损失、交易加速异常、甚至市场崩盘\footnote{\url{https://en.wikipedia.org/wiki/2010_flash_crash}}。
+导致巨额资金损失、交易加速异常，甚至市场崩盘\footnote{\url{https://en.wikipedia.org/wiki/2010_flash_crash}}。
 
 \noindent
 \textbf{航空航天}
 
-严重缺陷会导致航天器损毁或人员伤亡\footnote{\url{https://spectrum.ieee.org/aerospace/aviation/how-the-boeing-737-max-disaster-looks-to-a-softwaredeveloper}}。
+导致航天器损毁或人员伤亡\footnote{\url{https://spectrum.ieee.org/aerospace/aviation/how-the-boeing-737-max-disaster-looks-to-a-softwaredeveloper}}。
 
 \noindent
 \textbf{你的行业}
@@ -47,11 +47,11 @@
 
 \mySubsectionNoFile{3.3}{示例}
 
-本书中的所有示例都使用 struct 而非 class。struct 和 class 唯一的区别在于，struct 的成员和基类默认为 public。使用 struct 可以让示例更简短、更易于阅读。
+本书中的所有示例都使用 struct，而非 class。struct 和 class 唯一的区别在于，struct 的成员和基类默认为 public。使用 struct 可以让示例更简短、更易于阅读。
 
 \mySubsectionNoFile{3.4}{练习}
 
-每个章节都包含一个或多个练习。大多数练习没有绝对正确或错误的答案。
+每个章节都包含一个或多个练习。大多数练习没有正确或错误的答案。
 
 \begin{myTip}{练习：留意练习题}
 在接下来的章节中，你会看到像这样的练习题。请留意它们！
@@ -60,16 +60,16 @@
 
 \begin{itemize}
 \item
-注重实践性，可直接应用到你当前的代码库中，立即体现其价值。
+注重实践性，可直接应用到当前的代码库中，并立即体现其价值。
 
 \item
-鼓励你进行独立思考和研究，从而更深入地理解这门语言。
+鼓励进行独立思考和研究，从而更深入地理解这门语言。
 \end{itemize}
 \end{myTip}
 
 \mySubsectionNoFile{3.5}{链接与参考}
 
-我已尽力引用那些我曾向其学习的人，并尽可能附上他们演讲的链接。如果我遗漏了什么，请告诉我。
+我尽力将那些“指导”过我的人在此列举，并附上他们演讲的链接。如有遗漏，请告诉我。
 
 
 
