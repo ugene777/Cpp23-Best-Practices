@@ -1,24 +1,24 @@
 
 
-(在谨慎的前提下)优先使用 ranges、views 和算法，其次才考虑使用范围 for 循环(ranged-for loops)。
+(谨慎的前提下)优先使用 range、view 和标准算法，其次才考虑使用范围 for 循环。
 
-\filename{图 93. 循环时使用 int 与 std::size\_t 的对比。}
+\filename{图 93. 循环时使用 int 与 std::size\_t 的对比}
 \begin{cpp}
 for (int i = 0; i < container.size(); ++i) {
   // 哎呀，类型不匹配
 }
 \end{cpp}
 
-\filename{图 94. 循环时容器不匹配。}
+\filename{图 94. 循环时容器不匹配}
 \begin{cpp}
 for (auto itr = container.begin();
      itr != container2.end();
      ++itr) {
-  //  哎呀，我们大多数人都曾在某个时候犯过这个错误
+  //  哎呀，大多数人都曾在某个时候犯过这个错误
 }
 \end{cpp}
 
-\filename{图 95. 范围 for 循环的示例。}
+\filename{图 95. 范围 for 循环的示例}
 \begin{cpp}
 for(const auto &element : container) {
   // 消除了以上两个问题
@@ -37,13 +37,13 @@ for(const auto &element : container) {
 应用 clang-tidy 的 modernize-loop-convert 检查。
 
 \item
-查找那些无法被转换的循环。
+查找那些无法转换的循环。
 \begin{itemize}
 \item
-无法被转换的循环可能代表代码中存在 bug
+无法转换的循环可能代表代码中存在 bug
 
 \item
-无法被转换但又没有 bug 的循环，是很好的简化候选对象
+无法转换但又没有 bug 的循环，是很好简化的候选对象
 \end{itemize}
 \end{enumerate}
 \end{myTip}

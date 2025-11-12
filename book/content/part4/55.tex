@@ -1,7 +1,8 @@
-SFINAE 有点像“只写”代码。if constexpr 没有 SFINAE 那么灵活，但在能用的时候请使用它。
-让我们回顾一下在“在多种情况下优先使用 auto”一节中见过的 divide 例子：
+SFINAE 有点像“只写”代码。if constexpr 没有 SFINAE 那么灵活，但请尽可能使用它。
 
-\filename{图 106. C++14 的 divide 模板。}
+回顾一下在“在多种情况下优先使用 auto”一节中的 divide 例子：
+
+\filename{图 106. C++14 的 divide 模板}
 \begin{cpp}
 template<typename Numerator, typename Denominator>
 auto divide(Numerator numerator, Denominator denominator)
@@ -10,9 +11,9 @@ auto divide(Numerator numerator, Denominator denominator)
 }
 \end{cpp}
 
-现在，我们希望在进行整数除法时添加不同的行为。在 C++17 之前，我们会使用 SFINAE(“替换失败并非错误”)。这本质上意味着，如果一个函数的实例化失败，它就会从重载决议中被移除。
+现在，我们希望在进行整数除法时添加不同的行为。在 C++17 之前，我们会使用 SFINAE(“替换失败并非错误”)，若一个函数的实例化失败，就会从重载决议中移除。
 
-\filename{图 107. 使用 SFINAE 的 'divide' 函数。}
+\filename{图 107. 使用 SFINAE 的 'divide' 函数}
 \begin{cpp}
 #include <stdexcept>
 #include <type_traits>
@@ -42,7 +43,7 @@ auto divide(Numerator numerator, Denominator denominator) {
 
 C++17 中的 if constexpr 可以简化这段代码：
 
-\filename{图 108. 使用 'if constexpr' 在编译时改变行为的选项。}
+\filename{图 108. 使用 'if constexpr' 在编译时改变行为的选项}
 \begin{cpp}
 import std;
 
@@ -65,7 +66,7 @@ nominator) {
 \end{cpp}
 
 \begin{myTip}{}
-在很多情况下，为了提高可读性，请考虑使用 concepts 而不是 if constexpr。
+很多情况下，为了提高可读性，请考虑使用 concepts 而不是 if constexpr。
 \end{myTip}
 
 \filename{图 109. 使用约束而不是 'if constexpr'}
@@ -91,7 +92,7 @@ import std;
 \end{cpp}
 
 \begin{myNotic}{}
-if constexpr 块内的代码在语法上仍然必须是正确的。if constexpr 与 \#define 不同。
+if constexpr 块内的代码在语法上仍然正确，if constexpr 与 \#define 不同。
 \end{myNotic}
 
 \begin{myTip}{}
@@ -99,13 +100,13 @@ if constexpr 块内的代码在语法上仍然必须是正确的。if constexpr 
 \end{myTip}
 
 \begin{myTip}{练习：研究“内省式设计”(design by introspection)}
-if constexpr、concepts 和 requires 的结合产生了一种非常强大的、几乎类似反射的能力。
+if constexpr、concepts 和 requires 的结合产生了一种非常强大的、类似反射的能力。
 
 \filename{图 110. “内省式设计”示例}
 \begin{cpp}
 constexpr void add_values(auto &container, auto first, auto second)
 {
-  // 我们在编译时询问，这个容器
+  // 我们在编译时检查，这个容器
   // 是否具有 reserve 和 size 成员。
   if constexpr(requires {container.reserve(container.size() + 2); }) {
     // 如果这是一个有效的操作，则在运行时执行它

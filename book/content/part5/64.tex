@@ -1,6 +1,7 @@
 
-一个令人惊讶的复杂性隐藏在看似简单的 C++ Lambda 表达式背后。Lambda 最初在 C++11 中引入，起初功能受限。随着每个 C++ 版本的演进，Lambda 变得越来越灵活和强大。
-Lambda 反转了 C++ 其他部分的一些默认规则。它们默认是 const 的，并且在可能的情况下会自动成为 constexpr；这些特性给了我们一些我们希望整个语言都能拥有的东西。
+Lambda 最初在 C++11 中引入，起初功能受限。随着每个 C++ 版本的演进，Lambda 变得越来越灵活和强大。
+
+Lambda 反转了 C++ 其他部分的一些默认规则。它们默认为 const，并且在可能的情况下会自动成为 constexpr。
 
 \filename{图 127. Lambda 语法}
 \begin{cpp}
@@ -18,7 +19,7 @@ lambda-declarator:
 
 如果你能读懂标准文档中的“行话”\footnote{\url{http://eel.is/c++draft/expr.prim.lambda}}，你就可以自己深入探究 C++20 Lambda 的所有特性。
 
-\filename{图 128. 截至 C++20 允许的 Lambda 示例。}
+\filename{图 128. 截至 C++20 允许的 Lambda 示例}
 \begin{cpp}
 // 有效的空 Lambda，什么都不做
 []{};
@@ -48,12 +49,13 @@ i mutable { return ++i; };
 [](auto ... val){ return [...val = val]{ return (val + ...); }; };
 \end{cpp}
 
-如果你理解了 C++ Lambda 的每一个方面以及编译器如何实现它们，那么你就掌握了 C++ 中所有重要的知识。
+如果理解了 C++ Lambda 的每一个方面以及编译器如何实现，那么就掌握了 C++ 中所有重要的知识。
+
 这就是为什么我专门在 YouTube 上制作了一个关于 Lambda 的 C++ 课程\footnote{\url{https://www.youtube.com/playlist?list=PLs3KjaCtOwSY_Awyliwm-fRjEOa-SRbs}}。
 
 2018 年，当编译器刚开始支持 C++20 的新 Lambda 时，我使用 Lambda 实现了一个基本符合标准的 std::bind 版本。
 
-\filename{图 129. 使用 C++20 Lambda 实现的 ‘std::bind‘。}
+\filename{图 129. 使用 C++20 Lambda 实现的 'std::bind'}
 \begin{cpp}
 template <std::size_t Idx>
 struct Placeholder {};
@@ -102,12 +104,12 @@ constexpr decltype(auto) bind(auto &&callable, auto &&...param) {
 }
 \end{cpp}
 
-我已经有两年没看过这段代码了，但这里有一个 Compiler Explorer 链接供你玩味。
+我已经有两年没看过这段代码了，但这里有一个 Compiler Explorer 链接供你品鉴。
 
 \url{https://godbolt.org/z/hhde3P}
 
 \begin{myTip}{练习：理解并批判性地评价给出的例子。}
-对于上面的例子，我本可以做得有什么不同？它能否用概念(concepts)加以约束？是否需要更好的命名？你会怎么做？
+对于上面的例子，我本可以做得有什么不同？它能否用概念加以约束？是否需要更好的命名？你会怎么做？
 \end{myTip}
 
 

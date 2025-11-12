@@ -1,6 +1,6 @@
-尽可能将代码移出模板。使用其他函数，使用基类。编译器仍然可以自由地选择将它们内联或不内联。减少模板的使用能够改善编译时间并减小二进制文件大小，这两点都有益处。这样做还能消除人们通常所说的“模板代码膨胀”(在我看来这种现象并不存在\footnote{\url{https://articles.emptycrate.com/2008/05/06/nobody_understands_c_part_5_template_code_bloat.html}})(文章格式在某个时候被破坏了，抱歉)。
+尽可能将代码移出模板。使用其他函数，使用基类。编译器仍然可以自由地选择是否将它们内联。减少模板的使用能够改善编译时间并减小二进制文件大小，这两点都有益处。这样做还能消除人们通常所说的“模板代码膨胀”(在我看来这种现象并不存在\footnote{\url{https://articles.emptycrate.com/2008/05/06/nobody_understands_c_part_5_template_code_bloat.html}})(文章格式在某个时候被破坏了，抱歉)。
 
-\filename{图 111. 每个函数模板实例化都生成一个新的 lambda。}
+\filename{图 111. 每个函数模板实例化都生成一个新的 lambda}
 \begin{cpp}
 template<typename T>
 constexpr void do_things()
@@ -13,7 +13,7 @@ constexpr void do_things()
 
 对比：
 
-\filename{图 112. 模板实例化之间共享逻辑。}
+\filename{图 112. 模板实例化之间共享逻辑}
 \begin{cpp}
 constexpr auto some_function() { /* do things*/ }
 
@@ -27,9 +27,9 @@ constexpr void do_things()
 现在，内部逻辑只编译一次，至于是否内联，则由编译器决定。类似的技术也适用于基类和带有模板的派生类。
 
 \begin{myTip}{练习：Bloaty McBloatface 和 -ftime-trace。}
-我们拥有的用于查找二进制文件膨胀和分析编译时间的工具越来越多。请研究一下这些工具以及你的平台上可用的其他工具。
+我们拥有的用于查找二进制文件膨胀和分析编译时间的工具越来越多。请研究一下这些工具，以及平台上可用的其他工具。
 
-在你的二进制文件上运行它们，看看你能发现什么。使用 Clang 的 -ftime-trace 时，也可以了解一下 ClangBuildAnalyzer。
+在你的二进制文件上运行它们，看看你能发现什么。使用 Clang 的 -ftime-trace 时，可以了解一下 ClangBuildAnalyzer。
 \end{myTip}
 
 \mySubsectionNoFile{56.1}{资源}

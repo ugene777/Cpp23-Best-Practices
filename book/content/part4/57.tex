@@ -1,9 +1,9 @@
 
 与将代码去模板化(de-template-izing)的理由相同：这是异常处理例程遵循“不要重复自己”(Don't Repeat Yourself)原则的体现。
 
-如果你需要处理多种不同类型的异常，你的代码可能看起来像这样：
+如果需要处理多种不同类型的异常，代码可能看起来像这样：
 
-\filename{图 113. 重复的异常处理。}
+\filename{图 113. 重复的异常处理}
 \begin{cpp}
 void use_thing() {
   try {
@@ -28,7 +28,7 @@ void use_other_thing() {
 
 一个“Lippincott函数”(以Lisa Lippincott命名)可以提供一个集中的异常处理例程。
 
-\filename{图 114. 使用Lippincott函数消除异常处理的重复。}
+\filename{图 114. 使用Lippincott函数消除异常处理的重复}
 \begin{cpp}
 void handle_exception() {
   try {
@@ -54,10 +54,10 @@ void use_other_thing() {
 }
 \end{cpp}
 
-这种技术并不新鲜——早在C++98之前就已经存在了。
+这种技术并不新鲜 --- 早在C++98之前就已经存在了。
 
 \begin{myTip}{练习：你使用异常吗？}
-如果你的项目使用了异常，那么很可能有空间可以简化和集中化你的错误处理例程。如果它不使用异常，那么你可能有其他类型的、被重复的错误处理例程。这些可以被简化吗？
+如果你的项目使用了异常，那么很可能有空间可以简化和集中化你的错误处理例程。如果它不使用异常，那么你可能有其他类型的、重复的错误处理例程。这些可以简化吗？
 \end{myTip}
 
 \mySubsectionNoFile{57.1}{资源}

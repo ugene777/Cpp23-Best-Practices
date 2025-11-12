@@ -3,7 +3,7 @@
 C++14 的 Lambda 表达式凭借其泛化的捕获功能，已经能够实现 std::bind 所能完成的所有事情。
 
 \begin{myTip}{}
-std::function 不支持 constexpr，这是另一个你可能需要避免在代码中使用它的原因。
+std::function 不支持 constexpr，这是另一个可能需要避免在代码中使用它的原因。
 \end{myTip}
 
 \filename{图 115. 使用 'std::bind' 改变参数顺序}
@@ -34,7 +34,7 @@ auto inverted_divide = [](const auto numerator,
 \end{cpp}
 
 \begin{myTip}{练习：比较各种可能性。}
-在 Compiler Explorer 中尝试这些选项。它们的编译时间和生成的汇编代码是怎样的？
+在 Compiler Explorer 中尝试这些选项，其编译时和生成的汇编代码是怎样的？
 
 \filename{图 117. ‘std::function‘ 和 ‘std::bind‘}
 \begin{cpp}
@@ -52,7 +52,7 @@ int main(int argc, const char *[])
 }
 \end{cpp}
 
-\filename{图 118. 仅使用 ‘std::bind‘，额外加分项：函数 ‘bind\_3‘ 返回的类型是什么？}
+\filename{图 118. 仅使用 'std::bind'，额外加分项：函数 'bind\_3' 返回的类型是什么？}
 \begin{cpp}
 #include <functional>
 
@@ -68,7 +68,7 @@ int main(int argc, const char *[])
 }
 \end{cpp}
 
-\filename{图 119. 仅使用 Lambdas，不使用任何 std 库包装器。}
+\filename{图 119. 仅使用 Lambdas，不使用任何 std 库包装器}
 \begin{cpp}
 #include <functional>
 

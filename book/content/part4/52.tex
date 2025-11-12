@@ -1,4 +1,4 @@
-不使用 auto 可能会使代码中更容易出现无声的错误。
+不使用 auto 可能会使代码中更容易出现“无声”错误。
 
 \filename{图 96. 意外的转换}
 \begin{cpp}
@@ -35,9 +35,9 @@ for (const auto &value : container) {
 \end{itemize}
 
 \begin{myTip}{练习：理解 std::map 和范围 for 循环}
-理解下面这段代码在做什么。它是否在进行拷贝？为什么？如何发生的？
+理解下面这段代码在做什么。它是否在进行复制？为什么？如何发生的？
 
-\filename{图 99. 意外的拷贝？}
+\filename{图 99. 意外的复制？}
 \begin{cpp}
 std::map<std::string, int> get_map();
 
@@ -50,11 +50,11 @@ for (const element_type & : get_map())
 \end{myTip}
 
 \begin{myTip}{}
-现代编译器可以直接捕获上述问题，但你必须启用相应的警告才能看到它！
+现代编译器可以直接捕获上述问题，但必须启用相应的警告才能看到！
 \end{myTip}
 
 \begin{myTip}{练习：启用与范围循环相关的警告}
-确保在你的代码中启用了 -Wrange-loop-construct 警告，该警告会自动包含在 -Wall 中。
+确保在代码中启用了 -Wrange-loop-construct 警告，该警告会自动包含在 -Wall 中。
 \end{myTip}
 
 

@@ -1,4 +1,4 @@
-直接初始化(Direct-Initialization)提供了一种高效的方式来初始化公有数据成员。
+直接初始化(Direct-Initialization)提供了一种高效的方式，来初始化公有数据成员。
 
 \filename{图 124. 直接初始化示例}
 \begin{cpp}
@@ -6,25 +6,25 @@
 
 struct Data
 {
-std::string first;
-std::string second;
+  std::string first;
+  std::string second;
 };
 
 int main()
 {
   // 直接初始化数据成员 first 和 second
-  // 这种方式没有拷贝或移动的开销，也无需考虑如何为此编写高效的构造函数。
+  // 这种方式没有复制或移动的开销，也无需考虑如何为此编写高效的构造函数。
   Data d{"Hello", "World"};
 }
 \end{cpp}
 
 其缺点是代码可读性较差。我们无法直观地知道那两个参数 "Hello" 和 "World" 分别对应哪个成员。
 
-C++20 引入了“指定初始化器”(designated initializers)，允许你明确指定要初始化的对象名称。
+C++20 引入了“指定初始化器”(designated initializers)，允许明确指定要初始化的对象名称。
 
 \begin{itemize}
 \item
-它们必须按声明顺序进行初始化
+必须按声明顺序进行初始化
 
 \item
 可以跳过某些成员的初始化
@@ -50,7 +50,7 @@ int main()
 \end{cpp}
 
 \begin{myNotic}{}
-重要提示：当使用指定初始化器时，如果遗漏了某个参数，编译器在发出警告方面表现不一致。请务必使用多个编译器并开启高级别的警告选项进行编译。
+重要提示：当使用指定初始化器时，如果遗漏了某个参数，编译器在发出警告方面表现不一致。请务必使用多个编译器，并开启高级别的警告选项进行编译。
 \end{myNotic}
 
 \begin{myTip}{练习：将一个具有公有成员的简单结构体与一个具有私有成员和构造函数的结构体进行比较。}

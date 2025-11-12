@@ -15,7 +15,7 @@ enum class Values {
 }
 \end{cpp}
 
-如果你启用了所有警告，那么你很可能会收到一个“并非所有代码路径都返回值”的警告。这在技术上是正确的。我们可以调用 \verb|get_name(static_cast<Values>(15))|，这除了因函数未返回值而导致未定义行为外，并不违反 C++ 标准 [dcl.enum/5] 的任何部分。
+如果启用了所有警告，很可能会收到一个“并非所有代码路径都返回值”的警告。我们可以调用 \verb|get_name(static_cast<Values>(15))|，这除了因函数未返回值而导致未定义行为外，并不违反 C++ 标准 [dcl.enum/5]。
 
 你可能会想这样修复这段代码：
 
@@ -76,11 +76,11 @@ enum class Values {
 \end{cpp}
 
 \begin{myTip}{}
-在上面的例子中，你不应该收到“不可达代码”的警告，因为有效值的范围几乎总是大于你已定义的值。
+上面的例子中，不应该收到“不可达代码”的警告，因为有效值的范围总是大于已定义的值。
 \end{myTip}
 
 \begin{myNotic}{}
-一些现代工具可以帮你检测到这些对 default 的使用情况。
+一些现代工具可以检测到这些 default 的使用情况。
 \end{myNotic}
 
 \begin{myTip}{练习：查找 default:}
@@ -88,7 +88,8 @@ enum class Values {
 \end{myTip}
 
 \begin{myTip}{练习：考虑使用 std::unreachable。}
-std::unreachable(在 C++23 中引入)如果被执行，则会显式地引发未定义行为。它可以用于 switch 语句的“不可达”情况，以确保编译器执行最优操作。
+std::unreachable(在 C++23 中引入)如果执行，则会显式地引发未定义行为。它可以用于 switch 语句的“不可达”情况，以确保编译器执行最优操作。
+
 这听起来可能有些吓人。你真的想要因为代码“不可能”被执行到而引入未定义行为吗？与你的同事讨论一下，并考虑在何处、何时以及是否要使用这个工具。更多细节请参见资源中的 C++ Weekly 视频。
 \end{myTip}
 

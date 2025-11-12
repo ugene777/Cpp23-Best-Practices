@@ -66,7 +66,7 @@ ReturnType some_function(int value)
 \end{cpp}
 
 \begin{myNotic}{}
-Clang-tidy 的 No Automatic Move\footnote{\url{https://clang.llvm.org/extra//clang-tidy/checks/performance-no-automatic-move.html}} 分析功能在很大程度上有缺陷。它在 NRVO 拷贝省略适用时仍会发出警告，而在真正重要的地方却不会警告！(截至 2022 年 2 月 23 日)。参见此分析：\url{https://compiler-explorer.com/z/a4K76nbhq}。
+Clang-tidy 的 No Automatic Move\footnote{\url{https://clang.llvm.org/extra//clang-tidy/checks/performance-no-automatic-move.html}} 分析功能在很大程度上有缺陷。它在 NRVO 复制省略适用时仍会发出警告，而在真正重要的地方却不会警告！(截至 2022 年 2 月 23 日)。参见此分析：\url{https://compiler-explorer.com/z/a4K76nbhq}。
 \end{myNotic}
 
 \begin{myWarning}{}
