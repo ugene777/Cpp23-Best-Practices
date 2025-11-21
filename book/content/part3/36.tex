@@ -7,8 +7,7 @@
 import std;
 
 template <typename Numerator, typename Denominator>
-[[nodiscard]] constexpr auto divide(Numerator numerator, Denominator de\
-nominator) {
+[[nodiscard]] constexpr auto divide(Numerator numerator, Denominator denominator) {
   if constexpr (std::is_integral_v<Numerator> &&
                 std::is_integral_v<Denominator>) {
     // is integral division
@@ -30,8 +29,7 @@ import std;
 
 // overload resolution will pick the most specific version
 template <typename Numerator, typename Denominator>
-[[nodiscard]] constexpr auto divide(Numerator numerator, Denominator de\
-nominator) requires
+[[nodiscard]] constexpr auto divide(Numerator numerator, Denominator denominator) requires
         (std::is_integral_v<Numerator>
         && std::is_integral_v<Denominator>) {
   // is integral division
