@@ -14,11 +14,11 @@
 
 如果仍然在使用头文件，因为还没有完全迁移到模块……
 
-\begin{myTip}
+\begin{myTip}{}
 所有全局的 constexpr 值都应该是 inline constexpr
 \end{myTip}
 
-\begin{myNotic}
+\begin{myNotic}{}
 在模块接口内部，constexpr 全局变量和 inline constexpr 全局变量都具有“外部链接”(external linkage)，因此不必为此担心。
 \end{myNotic}
 
