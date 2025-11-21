@@ -14,7 +14,7 @@
 隐式地禁用了移动操作
 \end{itemize}
 
-\begin{myWarning}
+\begin{myWarning}{}
 如果需要析构函数，是因为你在进行资源管理，或者在定义一个带有虚函数的基类，那么需要遵循“五规则”。
 \end{myWarning}
 
@@ -48,7 +48,7 @@ S::~S() {}
 \end{cpp}
 \end{myTip}
 
-\begin{myNotic}
+\begin{myNotic}{}
 对特殊成员函数的任何提及都会隐式地禁用编译器生成的移动操作。这包括 \verb|~S() = default;|。
 \end{myNotic}
 
